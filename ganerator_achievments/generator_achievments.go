@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/png"
 	"log"
+	"regexp"
 	"strings"
 )
 
@@ -34,7 +35,7 @@ func GenerateAchievements(bot *tgbotapi.BotAPI, message *tgbotapi.Message) error
 	}
 
 	//Отсекаем пустые команды. Незачем генерировать пустые шаблоны
-	if message.IsCommand() && len(strings.Split(clrStr(message.Text), " ")) <= 1 {
+	if message.IsCommand() && len(strings.Split(clearString(message.Text), " ")) <= 1 {
 		return nil
 	}
 
@@ -99,20 +100,15 @@ func in(string string, listString []string) bool {
 	return false
 }
 
-//Удаляем лишние символы
-func clrStr(str string) string {
-	sampleStr := "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMйцукенгшщзфывапролдячсмитьхъжэбюёЙЦУКЕНГШЩЗФЫВАПРОЛДЯЧСМИТЬХЪЖЭБЮЁ1234567890,.-+=!;#@;%:?*()<>?{} "
-	strRune := []rune(str)
-	sampleStrRune := []rune(sampleStr)
-	newStrRune := []rune("")
-	for _, r := range strRune {
-		for _, nr := range sampleStrRune {
-			if r == nr {
-				newStrRune = append(newStrRune, r)
-			}
-		}
+//Убираем ASCII коды со строки
+func clearString(str string) string {
+	reg := regexp.MustCompile(`[[:alnum:]|| [:ascii:]|| [а-яА-Я]`)
+	findAllString := reg.FindAllString(str, -1)
+	var set string
+	for i := range findAllString {
+		set += findAllString[i]
 	}
-	return string(newStrRune)
+	return set
 }
 
 // Заглушка для отправки медиа
