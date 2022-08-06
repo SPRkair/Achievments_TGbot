@@ -1,4 +1,4 @@
-module MyLearn
+module Achievments_TG_bot
 
 go 1.18
 
