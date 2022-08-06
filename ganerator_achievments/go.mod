@@ -1,4 +1,4 @@
-module github.com/SPRkair/Achievments_TGbot/ganerator_achievments
+module github.com/SPRkair/Achievments_TGbot/ganerator_achievments/v1
 
 go 1.18
 
