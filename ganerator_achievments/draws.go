@@ -77,6 +77,24 @@ func GetGenImage(messageSrc *tgbotapi.Message, avatar *image.RGBA) (*image.RGBA,
 
 	switch gotCommand {
 	case "test":
+		colorBackgrRGBA, err := hexToRGBA(hexBackgSimple)
+		if err != nil {
+			log.Printf("[%s] %s", "fail hexToRGBA Draw Simple ", err)
+		}
+		err = backgRender(genImg, colorBackgrRGBA)
+		if err != nil {
+			log.Printf("[%s] %s", "fail backgRender Draw Simple ", err)
+		}
+		err = drawIcon(avatar, genImg, borderIconCustom)
+		if err != nil {
+			log.Printf("[%s] %s", "fail drawIcon Draw Simple ", err)
+		}
+
+		err = fontRender(genImg, GotTextHead, GotTextBody, false, false)
+		if err != nil {
+			log.Printf("[%s] %s", "fail fontRender Draw Simple ", err)
+		}
+		return genImg, err
 
 	case "alpha":
 		colorBackgrRGBA := color.RGBA{R: 0, G: 0, B: 0, A: 0}
